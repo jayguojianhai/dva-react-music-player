@@ -4,8 +4,8 @@ export const MUSIC_LIST = [
 		title: '天使中的魔鬼',
 		artist: '田馥甄',
 		file: 'http://oj4t8z2d5.bkt.clouddn.com/%E9%AD%94%E9%AC%BC%E4%B8%AD%E7%9A%84%E5%A4%A9%E4%BD%BF.mp3',
-		cover: 'http://oj4t8z2d5.bkt.clouddn.com/%E9%AD%94%E9%AC%BC%E4%B8%AD%E7%9A%84%E5%A4%A9%E4%BD%BF.jpg'
-	}, {
+    cover: 'http://oj4t8z2d5.bkt.clouddn.com/%E9%AD%94%E9%AC%BC%E4%B8%AD%E7%9A%84%E5%A4%A9%E4%BD%BF.jpg',
+  }, {
 		id: 2,
 		title: '等你下课',
 		artist: '周杰伦',

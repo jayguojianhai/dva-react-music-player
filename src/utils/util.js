@@ -6,3 +6,6 @@ export function play(item) {
 		mp3: item.file,
 	}).jPlayer('play');
 }
+export function findCurrentIndex(arr, item) {
+  return arr.indexOf(item);
+}

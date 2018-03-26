@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import Progress from '../components/progress';
 import { Link } from 'dva/router';
-import { play, randomRange } from '../utils/util';
+import { findCurrentIndex } from '../utils/util';
 import './player.less';
 
 let duration = null;
@@ -57,41 +57,17 @@ class Player extends Component {
     });
   }
   prev() {
-    this.playNext('prev');
+    this.props.playNext('prev');
   }
   next() {
-    this.playNext();
+    this.props.playNext();
   }
-  playNext(type = 'next') {
-    const { dispatch, music: { musicList, currentMusicItem, repeat } } = this.props; 
-    const length = musicList.length;
-    const index = this.findCurrentIndex(musicList, currentMusicItem);
-    let newIndex = index;
-    if (repeat === 'cycle') {
-      if(type === 'next') {
-        newIndex = (index + 1) % length;
-      } else {
-        newIndex = (index - 1 + length ) % length;
-      }
-    } else if (repeat === 'random') {
-      newIndex = randomRange(0, length - 1);
-      while(newIndex === index) {
-        newIndex = randomRange(0, length - 1);
-      }
-    }
-    dispatch({
-      type: 'music/save',
-      payload: {
-        currentMusicItem: musicList[newIndex],
-      }
-    });
-    play(musicList[newIndex]);
-  }
+  
   repeatChange() {
     const { dispatch, music: { repeat } } = this.props;
     const repeats = ['cycle', 'random', 'once'];
     const length = repeats.length;
-    const index = this.findCurrentIndex(repeats, repeat);
+    const index = findCurrentIndex(repeats, repeat);
     const newIndex = (index + 1) % length;
     dispatch({
       type: 'music/save',
@@ -99,9 +75,6 @@ class Player extends Component {
         repeat: repeats[newIndex],
       }
     });
-  }
-  findCurrentIndex(arr, item) {
-    return arr.indexOf(item);
   }
   render() {
     const { currentMusicItem: { title, artist, cover }, repeat } = this.props.music;

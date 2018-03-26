@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import List from '../components/list';
 
-class App extends Component {
+class ListPage extends Component {
   render() {
-    const { currentMusicItem, musicList } = this.props.music;
+    const { music: { currentMusicItem, musicList } } = this.props;
     return (
       <List currentMusicItem={currentMusicItem} musicList={musicList} />
     );
@@ -13,4 +13,4 @@ class App extends Component {
 
 export default connect(state => ({
   music: state.music,
-}))(App);
+}))(ListPage);
