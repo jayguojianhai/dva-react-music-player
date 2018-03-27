@@ -1,25 +1,34 @@
-
-import { MUSIC_LIST } from '../config/config';
+import { query } from '../services/music';
 
 export default {
 
   namespace: 'music',
 
   state: {
-    musicList: MUSIC_LIST,
-    currentMusicItem: MUSIC_LIST[0],
+    musicList: [],
+    currentMusicItem: {},
     repeat: 'cycle',
   },
 
   subscriptions: {
     setup({ dispatch, history }) {  // eslint-disable-line
+      dispatch({
+        type: 'fetch'
+      });
     },
   },
 
   effects: {
-    // *fetch({ payload }, { call, put }) {  // eslint-disable-line
-    //   yield put({ type: 'save' });
-    // },
+    *fetch({ payload }, { call, put }) {  // eslint-disable-line
+      const response = yield call(query);
+      yield put({ 
+        type: 'save',
+        payload: {
+          musicList: response.data,
+          currentMusicItem: response.data[0],
+        }
+      });
+    },
   },
 
   reducers: {

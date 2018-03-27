@@ -1,26 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import MainLayout from '../components/layout';
-import Player from './player';
-import List from './list';
-import Detail from './detail';
+import { Route, Switch } from 'dva/router';
 import { play, randomRange, findCurrentIndex } from '../utils/util';
+import Header from './header';
+import Player from '../routes/player';
+import List from '../routes/list';
+import Detail from '../routes/detail';
 
-class App extends Component {
+class MainLayout extends Component{
   constructor(props) {
     super(props);
     this.playNext = this.playNext.bind(this);
   }
   componentDidMount() {
-    const { currentMusicItem } = this.props.music;
+    const { music: { musicList } } = this.props;
     $('#player').jPlayer({
       supplied: 'mp3',
       wmode: 'window'
     });
-    play(currentMusicItem);
+    //play(musicList[0]);
     $('#player').bind($.jPlayer.event.ended, (e) => {
       this.playNext();
     });
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.music.currentMusicItem !== this.props.music.currentMusicItem) {
+      play(nextProps.music.currentMusicItem);
+    }
   }
   componentWillUnMount() {
     $('#player').unbind($.jPlayer.event.ended);
@@ -50,27 +56,21 @@ class App extends Component {
     });
     play(musicList[newIndex]);
   }
-  getComponent(path) {
-    switch(path) {
-      case '/list': 
-        return <List />;
-      case '/detail':
-        return <Detail />
-      default:
-        return <Player playNext={this.playNext} />;
-    }
-  }
   render() {
-    const { history: { location : { pathname } } } = this.props;
-    const component = this.getComponent(pathname);
     return (
-      <MainLayout>
-        {component}
-      </MainLayout>
+      <div>
+        <Header />
+          <Switch>
+            <Route path="/" exact render={props => <Player playNext={this.playNext} />} />
+            <Route path="/player" render={props => <Player playNext={this.playNext} />} />
+            <Route path="/list" render={props => <List />} />
+            <Route path="/detail" render={props => <Detail />} />
+          </Switch>
+      </div>
     );
   }
-};
+}
 
 export default connect(state => ({
   music: state.music,
-}))(App);
+}))(MainLayout);

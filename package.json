@@ -24,6 +24,7 @@
     "less": "^3.0.1",
     "less-loader": "^4.1.0",
     "redbox-react": "^1.4.3",
-    "roadhog": "^2.0.0"
+    "roadhog": "^2.0.0",
+    "roadhog-api-doc": "^1.0.0"
   }
 }
