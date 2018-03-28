@@ -62,7 +62,6 @@ class Player extends Component {
   next() {
     this.props.playNext();
   }
-  
   repeatChange() {
     const { dispatch, music: { repeat } } = this.props;
     const repeats = ['cycle', 'random', 'once'];

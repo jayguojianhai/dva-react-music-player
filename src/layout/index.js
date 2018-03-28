@@ -13,12 +13,10 @@ class MainLayout extends Component{
     this.playNext = this.playNext.bind(this);
   }
   componentDidMount() {
-    const { music: { musicList } } = this.props;
     $('#player').jPlayer({
       supplied: 'mp3',
       wmode: 'window'
     });
-    //play(musicList[0]);
     $('#player').bind($.jPlayer.event.ended, (e) => {
       this.playNext();
     });
